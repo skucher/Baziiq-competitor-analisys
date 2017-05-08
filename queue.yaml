@@ -1,0 +1,4 @@
+queue:
+- name: backendTask
+  rate: 20/s
+  bucket_size: 5

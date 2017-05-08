@@ -1,0 +1,15 @@
+body {
+    font-family: Verdana, Helvetica, sans-serif;
+    background-color: #DDDDDD;
+}
+
+.baziliq_img{
+	border: 1px solid black;
+}
+
+li.baziliq_img_grid {
+    list-style: none outside none;
+    float: left;
+    display: inline;
+    overflow: hidden;
+}

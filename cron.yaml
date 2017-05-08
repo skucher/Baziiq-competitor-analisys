@@ -1,0 +1,8 @@
+cron:
+- description: daily summary job
+  url: /rank_crone
+  schedule: every day 03:00
+  
+- description: daily summary email
+  url: /reports?type=email
+  schedule: every day 07:00
