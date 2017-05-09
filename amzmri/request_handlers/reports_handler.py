@@ -100,8 +100,8 @@ class ReportsHandler(webapp2.RequestHandler):
                         table_html += '<td class="table_empty_td"></td>'    # same ASIN
                     first_property_change = False 
                     table_html += '<td>{}</td>'.format(property_name)
-                    table_html += '<td>{}</td>'.format(str(change_from))
-                    table_html += '<td>{}</td>'.format(str(change_to))
+                    table_html += '<td>{}</td>'.format(unicode(change_from).encode('utf8'))
+                    table_html += '<td>{}</td>'.format(unicode(change_to).encode('utf8'))
                         
                 table_html += '</tr>'
                 
