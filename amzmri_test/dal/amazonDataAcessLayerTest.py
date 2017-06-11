@@ -13,6 +13,11 @@ class AmazonDataAccessLayerTest(unittest.TestCase):
         lasins = dal.searchFirstNAsins("Portable diaper changing pad", 25)
         self.assertEqual(25, len(lasins))
         print lasins
+
+    def test_get_is_indexed_for_words(self):
+        dal = AmazonDataAccessLayer()
+        res = dal.get_is_indexed_for_words('B01ETRM2LO', set(['bambi', 'diaper']))
+        self.assertEqual({'bambi': False, 'diaper': True}, res)
         
     def test_getProductsByAsins(self):
         dal = AmazonDataAccessLayer()

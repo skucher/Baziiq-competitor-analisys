@@ -17,6 +17,10 @@
  		<br><br>
  		
  		<div id="baziliq_result"></div>
+ 		<div>
+ 			<h2>Our ASIN Keywords Report</h2>
+ 			<div id="our_asin_keywords_report"></div>
+ 		</div>
 
  	<script type="text/javascript">
  		google.charts.load('current', {'packages':['table', 'line']});
@@ -35,6 +39,22 @@
  				return field_type == 'table_report';
  			};
  			reporter.runReport = function runReport(field_type){
+	 			
+	 			jQuery.ajax({
+	 				url: '/get_our_asin_keywords_report',
+	 				data: {},
+	 				type: "POST",	 				
+	 				success: function(json_string){
+	 					var table_data = JSON.parse( json_string );
+	 					drawTable(table_data, 'our_asin_keywords_report')
+	 				},
+	 				error: function(){
+	 				   jQuery('#our_asin_keywords_report').html('ERROR... check logs to see what was wrong :)');
+	 				},
+	 				allways: function(){
+	 				   jQuery('#baziliq_main_button').prop('disabled', false);
+	 				}
+	 			});
 	 			jQuery.ajax({
 	 				url: '/get_rank_report',
 	 				data: {'report_type': field_type

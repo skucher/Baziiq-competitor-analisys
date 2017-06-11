@@ -1,5 +1,5 @@
 import unittest
-from amzmri.services.listRankService import ListRankService
+from amzmri.services.list_rank_service import ListRankService
 from amzmri_test.mock.xsellDbMock import XSellDbMock
 from amzmri_test.mock.amzDalMock import AmzDalMock
 

@@ -52,7 +52,15 @@ class AmazonDataAccessLayer(object):
         products = self._getProducts(lAsins, "OfferFull")
         print products
         
-    
+    def get_is_indexed_for_words(self, asin, set_words):
+        d_res = {}
+        for word in set_words:
+            products = self._amazonApi.search_n(1, 
+                                     ResponseGroup="ItemIds", 
+                                     Keywords="%s %s" % (asin, word), 
+                                     SearchIndex='Baby')
+            d_res[word] = True if products else False 
+        return d_res
     
     def getProductUrl(self, product):
         product_url = product.offer_url
