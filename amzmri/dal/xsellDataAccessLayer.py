@@ -176,7 +176,7 @@ class XSellDataAccessLayer(object):
         query = ProductChangeHistory.query(
             ndb.AND(ProductChangeHistory.creation_date >= from_date),
                     ProductChangeHistory.creation_date < to_date,
-                    ProductChangeHistory.asin == asin).get()
+                    ProductChangeHistory.asin == asin)
         product_change_history = query.fetch(100)
         
         if not product_change_history:
