@@ -76,7 +76,10 @@ class XSellDataAccessLayer(object):
         bsr_entities = query.fetch()
         return bsr_entities
     
-    def getOurAsinIndexes(self):
+    def getOurAsinIndexes(self):        
+        '''
+        asin->keyword
+        '''
         d_result = {}
         for asin in self.our_asins:
             d_result[asin] = {}
@@ -88,6 +91,12 @@ class XSellDataAccessLayer(object):
         return d_result
         
     def getKeywordRanks(self, list_asins, list_keywords, from_date, to_date):
+        '''
+        KeywordRank:objects
+            date,
+            keyword,
+            asin
+        '''
         set_asins = set(list_asins)
         set_keywords = set(list_keywords)
         query = KeywordRank.query(

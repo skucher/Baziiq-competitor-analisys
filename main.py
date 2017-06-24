@@ -5,6 +5,7 @@ import jinja2
 from amzmri.request_handlers.rank_report_request_handler import RankReportRequestHandler
 from amzmri.request_handlers.reports_handler import ReportsHandler
 from amzmri.request_handlers.asin_summary_handler import AsinSummaryHandler
+from amzmri.request_handlers.asin_history_handler import AsinHistoryHandler
 from asklogin import LoginPage
 from amzmri.request_handlers.crone import Crone
 from amzmri.request_handlers.keywords_asin_report import KeywordsAsinReport
@@ -22,6 +23,7 @@ app = webapp2.WSGIApplication([
     ('/rank_crone', Crone),
     ('/reports', ReportsHandler),
     ('/asin_summary', AsinSummaryHandler),#AsinSummaryHandler
+    ('/asin_history', AsinHistoryHandler),
     ('/get_rank_report', RankReportRequestHandler), 
     ('/get_our_asin_keywords_report', KeywordsAsinReport),     
 ], debug=True, config=config)
