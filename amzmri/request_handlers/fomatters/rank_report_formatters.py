@@ -4,7 +4,7 @@ FORMATTER_KEY = '_formatter'
 def get_result_for_keyword(asin_report, keyword):
     result = asin_report.dict_keyword_ranks.get(keyword)
     if not result:
-        return 'NA'
+        return 'NA', None
     return result
 
 class RankFormatterFactory(object):

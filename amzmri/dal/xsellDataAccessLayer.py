@@ -17,33 +17,120 @@ class XSellDataAccessLayer(object):
 
 
     def __init__(self):
-        self.our_asins = ['B01ETRM2LO','B06XZT4XW3']        
+        self.our_asins = ['B01ETRM2LO','B06XZT4XW3']
         self.lAsins = []
         self.lAsins.extend(self.our_asins)
-        self.lAsins.extend(['B0038JE3R6', 'B0145QF41E', 'B00B7XUVOE', 'B0113GS1VY', 'B01DXIE29A', 'B01C03PLQW', 'B00S3HGG9Q', 'B00AQ693RO', 'B011BY7DX0', 'B017139DQK'])
-        self.lKeywords = [
-                            'nappy changing bag',
-                            'diaper changing pad',
-                            "diaper changing mat",
-                            "diaper changing station",
-                            "portable diaper changing pad",
-                            'diaper changing kit',
-                            'travel diaper changing pad',
-                            'diaper changing clutch',
-                            'travel diaper changing kit',
-                            'portable changing mat',
-                            'portable changing matt',
+        self.lAsins.extend(['B00B7XUVOE','B01AFQI3ZW','B0145QF41E','B01AKYXX04','B01M2ZPCLE','B01JKNMYJW','B01C03PLQW','B01N487X84','B011BY7DX0','B01FOKJRZE'])
+        self.lKeywords = ['travel changing pad',
+                            'portable diaper bag',
                             'portable changing pad',
-                            'travel changing mat',
-                            'travel changing pad',
-                            'diaper change pad',
-                            'diaper changer',
-                            'diaper change mat',
-                            'diaper change station',
-                            'diaper change organizer',
+                            'portable changing mat',
+                            'portable baby changer',
+                            'mini diaper bag',
+                            'diaper changing station',
+                            'diaper changing pad',
+                            'diaper changing mat',
+                            'diaper changing clutch',
+                            'diaper changing kit',
+                            'changing pad travel',
+                            'changing pad portable',
+                            'baby travel accessories',
+                            'baby changing station',
+                            'baby changing pad',
+                            'baby changing mat',
+                            'baby changing clutch',
+                            'baby changing pad portable',
+                            'baby changing pad travel',
+                            'baby changing station portable',
+                            'baby clutch with changing pad',
+                            'baby travel changing pad',
+                            'diaper changing pad portable',
+                            'portable baby changing pad',
+                            'portable baby changing station',
+                            'portable changing station',
+                            'portable diaper changing pad',
+                            'travel baby changing pad',
+                            'travel diaper changing pad',
+                            'travel diaper changing station',
+                            'travel diaper changing kit',
+                            'travel bassinet',
+                            'diaper pouch',
+                            'diaper bag',
+                            'changing station',
+                            'changing pad',
+                            'changing mat',
+                            'baby travel',
+                            'baby clutch',
+                            'baby accessories',
+                            'diaper changer'
                         ]
-        list2d = [[word for word in expression.split(" ")] for expression in self.lKeywords]
-        self.keywords_superset = set(itertools.chain(*list2d))
+        self.keywords_superset = set(['baby',
+                            'accessories',
+                            'changing',
+                            'clutch',
+                            'mat',
+                            'pad',
+                            'portable',
+                            'travel',
+                            'station',
+                            'diaper',
+                            'bag',
+                            'changer',
+                            'kit',
+                            'pouch',
+                            'change',
+                            'foldable',
+                            'infant',
+                            'waterproof',
+                            'organizer',
+                            'large',
+                            'light',
+                            'outdoor',
+                            'care',
+                            'basics',
+                            'essentials',
+                            'present',
+                            'gift',
+                            'shower',
+                            'birth',
+                            'grooming',
+                            'checklist',
+                            'must',
+                            'haves',
+                            'diapering',
+                            'newborn',
+                            'toddler',
+                            'kid',
+                            'child',
+                            'unisex',
+                            'babies',
+                            'starter',
+                            'girl',
+                            'boy',
+                            'daddy',
+                            'mom',
+                            'set',
+                            'mommy',
+                            'helper',
+                            'new',
+                            'born',
+                            'backpack',
+                            'twins',
+                            'parents',
+                            'folded',
+                            'wide',
+                            'wipeable',
+                            'washable',
+                            'easy',
+                            'clean',
+                            'easily',
+                            'small',
+                            'long',
+                            'big',
+                            'detachable',
+                            'colorful',
+                            'lightweight',
+                            'soft'])
                    
     def storeBsrs(self, lAsinBsrs):
         '''
@@ -84,10 +171,16 @@ class XSellDataAccessLayer(object):
         for asin in self.our_asins:
             d_result[asin] = {}
             query = AsinWordsIsIndexed.query(AsinWordsIsIndexed.asin == asin)
+            res = query.fetch()
+            if not res:
+                return d_result 
             latest_result = max(query.fetch(), key=lambda x: x.date)
             words_dict = json.loads(latest_result.words_is_indexed)
             for word in self.keywords_superset:
-                d_result[asin][word] = words_dict[word]
+                word_index = 9999
+                if word in words_dict:
+                    word_index = words_dict[word]
+                d_result[asin][word] = word_index
         return d_result
         
     def getKeywordRanks(self, list_asins, list_keywords, from_date, to_date):

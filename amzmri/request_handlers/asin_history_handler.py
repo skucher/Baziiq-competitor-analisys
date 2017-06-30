@@ -33,7 +33,7 @@ class AsinHistoryHandler(webapp2.RequestHandler):
         xsell_dal = XSellDataAccessLayer()
         list_asins = xsell_dal.getAsins()
         to_date = datetime.datetime.utcnow()
-        from_date = to_date - datetime.timedelta(days=30)
+        from_date = to_date - datetime.timedelta(days=7)
         
         list_asin_bsrs = xsell_dal.getBsrRanks(list_asins, from_date, to_date)
         d_asins = self._create_d_asins(list_asin_bsrs)
@@ -68,6 +68,8 @@ class AsinHistoryHandler(webapp2.RequestHandler):
         
         as_json = json.dumps(d_result)
         self.response.write(as_json)
+        self.response.headers["Access-Control-Allow-Origin"] = "*"
+        self.response.headers["Access-Control-Allow-Headers"] = "Content-Type"
           
         
 

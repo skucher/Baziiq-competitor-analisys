@@ -1,94 +1,22 @@
 <!DOCTYPE html>
 {% autoescape true %}
-<html>
+<html lang="en">
 <head>
-    <link type="text/css" rel="stylesheet" href="/css/main.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <meta charset="UTF-8">
+  <title>AMZ Budo</title>
+  <!--
+  <link rel="stylesheet" href="/app/app.css">
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  -->
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
+<body>
+  <div id="main">
+  </div>
 
- <body>
- 	<h1>BaZiLiQ - Reports</h1>
- 		Please select your option:
- 		<select id="baziliq_select_type" class="baziliq_select_type" name="select_action">
-		  <option value="table_report">table_report</option>
-		</select>
- 		<input id="baziliq_main_button" type="button" onclick="executeTask()" value="GO!" style="width: 8em;padding: 3px;font-weight: bold;">
- 		<br><br>
- 		
- 		<div id="baziliq_result"></div>
- 		<div>
- 			<h2>Our ASIN Keywords Report</h2>
- 			<div id="our_asin_keywords_report"></div>
- 		</div>
+  <script src="/script/bundle.js"></script>
 
- 	<script type="text/javascript">
- 		google.charts.load('current', {'packages':['table', 'line']});
- 		reporter()
- 		
- 		
- 		function executeTask(){
- 			var field_type = jQuery('#baziliq_select_type').val();
- 			if(reporter.isReport(field_type)){
- 				reporter.runReport(field_type)
- 				return;
- 			} 			
- 		}
- 		function reporter(){
- 			reporter.isReport = function (field_type){
- 				return field_type == 'table_report';
- 			};
- 			reporter.runReport = function runReport(field_type){
-	 			
-	 			jQuery.ajax({
-	 				url: '/get_our_asin_keywords_report',
-	 				data: {},
-	 				type: "POST",	 				
-	 				success: function(json_string){
-	 					var table_data = JSON.parse( json_string );
-	 					drawTable(table_data, 'our_asin_keywords_report')
-	 				},
-	 				error: function(){
-	 				   jQuery('#our_asin_keywords_report').html('ERROR... check logs to see what was wrong :)');
-	 				},
-	 				allways: function(){
-	 				   jQuery('#baziliq_main_button').prop('disabled', false);
-	 				}
-	 			});
-	 			jQuery.ajax({
-	 				url: '/get_rank_report',
-	 				data: {'report_type': field_type
-	 				},
-	 				type: "POST",	 				
-	 				success: function(json_string){
-	 					var table_data = JSON.parse( json_string );
-	 					drawTable(table_data, 'baziliq_result')
-	 				},
-	 				error: function(){
-	 				   jQuery('#baziliq_result').html('ERROR... check logs to see what was wrong :)');
-	 				},
-	 				allways: function(){
-	 				   jQuery('#baziliq_main_button').prop('disabled', false);
-	 				}
-	 			});
- 			}
- 			
-			function drawTable(table_data, section){
-	 			var data = new google.visualization.DataTable();
-					
-				for (i = 0; i < table_data.columns.length; i++) { 
-					data.addColumn('string', table_data.columns[i]);
-				}
-					
-				data.addRows(table_data.rows)	
-		        var table = new google.visualization.Table(document.getElementById(section));
-			
-		        table.draw(data, {width: '100%', height: '100%', allowHtml:true})
-	 		}
- 		}
- 	</script>
- </body>  
-  
-  
+</body>
 </html>
 {% endautoescape %}

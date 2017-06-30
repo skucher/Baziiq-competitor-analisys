@@ -7,10 +7,14 @@ api_version: 1
 threadsafe: false
 
 handlers:
-- url: /css/main.css
-  static_files: static/css/main.css
+- url: /css/(.*\.(css))
+  static_files: static/css/app.css
   upload: static/(.*\.(css))
 
+- url: /script/(.*\.(js))
+  static_files: static/script/bundle.js
+  upload: static/(.*\.(js))
+  
 - url: .*
   script: main.app
 
