@@ -109,8 +109,8 @@
 	            'Please Wait Few Seconds For A Data ...'
 	        ), options);
 	        _jquery2.default.ajax({
-	            url: "http://localhost:8080/asin_history",
-	            //url: "/asin_history",
+	            //url: "http://localhost:8080/asin_history",
+	            url: "/asin_history",
 	            contentType: 'application/x-www-form-urlencoded',
 	            cache: false,
 	            success: function (data) {
