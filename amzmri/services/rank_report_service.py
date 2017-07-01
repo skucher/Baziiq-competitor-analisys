@@ -30,7 +30,7 @@ class RankReportService(object):
             keyword_results.append((keyword_rank.order, keyword_rank.date))#convert date to day?
         
         
-        return dict_report.items()
+        return [(asin, dict_report[asin]) for asin in list_asins if asin in dict_report]#dict_report.items()
     
 class AsinReport(object):
     def __init__(self):

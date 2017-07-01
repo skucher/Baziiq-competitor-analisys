@@ -38,7 +38,10 @@ class RankTableFormatter(object):
             row.append(' -> '.join(str(bsr) for bsr,_ in asin_report.list_bsr_ranks))           
             
             for keyword in list_keywords:
-                row.append(' -> '.join(str(order) for order,_ in get_result_for_keyword(asin_report, keyword)))
+                try:
+                    row.append(' -> '.join(str(order) for order,_ in get_result_for_keyword(asin_report, keyword)))
+                except Exception, e:
+                    print e
             
             rows.append(row)
         
