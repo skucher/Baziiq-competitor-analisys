@@ -157,31 +157,29 @@ class XSellDataAccessLayer(object):
     def getBsrRanks(self, list_asins, from_date, to_date):
         set_asins = set(list_asins)
         query = Bsr.query(
-            ndb.AND(Bsr.date >= from_date),
+                    Bsr.date >= from_date,
                     Bsr.date < to_date,
                     Bsr.asin.IN(set_asins))
         bsr_entities = query.fetch()
         return bsr_entities
     
-    def getOurAsinIndexes(self):        
+    def getOurAsinIndexes(self, from_date, to_date):        
         '''
-        asin->keyword
+        list of AsinWordsIsIndexed
+            asin = ndb.StringProperty(required = True)
+            words_is_indexed = ndb.StringProperty(required = True)
+            date = ndb.DateTimeProperty(auto_now=True) 
         '''
-        d_result = {}
-        for asin in self.our_asins:
-            d_result[asin] = {}
-            query = AsinWordsIsIndexed.query(AsinWordsIsIndexed.asin == asin)
-            res = query.fetch()
-            if not res:
-                return d_result 
-            latest_result = max(query.fetch(), key=lambda x: x.date)
-            words_dict = json.loads(latest_result.words_is_indexed)
-            for word in self.keywords_superset:
-                word_index = 9999
-                if word in words_dict:
-                    word_index = words_dict[word]
-                d_result[asin][word] = word_index
-        return d_result
+        all_asin_results = []
+        for asin in self.our_asins:           
+            query = AsinWordsIsIndexed.query(
+                            AsinWordsIsIndexed.date >= from_date,
+                            AsinWordsIsIndexed.date < to_date,
+                            AsinWordsIsIndexed.asin == asin)            
+            curr_asin_results = query.fetch()
+            if curr_asin_results:
+                all_asin_results.extend(curr_asin_results)                
+        return all_asin_results
         
     def getKeywordRanks(self, list_asins, list_keywords, from_date, to_date):
         '''
@@ -193,7 +191,7 @@ class XSellDataAccessLayer(object):
         set_asins = set(list_asins)
         set_keywords = set(list_keywords)
         query = KeywordRank.query(
-            ndb.AND(KeywordRank.date >= from_date),
+                    KeywordRank.date >= from_date,
                     KeywordRank.date < to_date,
                     KeywordRank.keyword.IN(set_keywords),
                     KeywordRank.asin.IN(set_asins))

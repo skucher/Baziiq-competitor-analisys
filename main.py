@@ -9,6 +9,7 @@ from amzmri.request_handlers.asin_history_handler import AsinHistoryHandler
 from asklogin import LoginPage
 from amzmri.request_handlers.crone import Crone
 from amzmri.request_handlers.keywords_asin_report import KeywordsAsinReport
+from amzmri.request_handlers.asin_changes_report import AsinChangesReport
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -25,5 +26,6 @@ app = webapp2.WSGIApplication([
     ('/asin_summary', AsinSummaryHandler),#AsinSummaryHandler
     ('/asin_history', AsinHistoryHandler),
     ('/get_rank_report', RankReportRequestHandler), 
-    ('/get_our_asin_keywords_report', KeywordsAsinReport),     
+    ('/get_our_asin_keywords_report', KeywordsAsinReport),  
+    ("/asin_changes_report", AsinChangesReport)   
 ], debug=True, config=config)

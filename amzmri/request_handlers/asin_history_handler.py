@@ -26,7 +26,7 @@ class AsinHistoryHandler(webapp2.RequestHandler):
     def _create_d_asins(self,list_asin_bsrs):
         d_asins = {}
         for bsr_obj in list_asin_bsrs:
-            d_asins[bsr_obj.asin] = {'bsr':[],'keywords':{},'changes':[]}
+            d_asins[bsr_obj.asin] = {'bsr':[],'keywords':{}}
         return d_asins
     
     def post(self):       
@@ -48,7 +48,7 @@ class AsinHistoryHandler(webapp2.RequestHandler):
             current_dict_kws = d_asins[keyword_rank_obj.asin]['keywords']
             current_history = current_dict_kws.setdefault(keyword_rank_obj.keyword,[])
             current_history.append({"value":keyword_rank_obj.order,"time":keyword_rank_obj.date.strftime("%Y-%m-%d")})
-        
+        '''
         for asin in xsell_dal.lAsins:
             product_changes = xsell_dal.getProductChangeHistory(asin, from_date, to_date)
             for product_change in product_changes:
@@ -60,7 +60,7 @@ class AsinHistoryHandler(webapp2.RequestHandler):
                                                     'to':change_to,
                                                     'time':time.strftime("%Y-%m-%d")
                                                      })
-        
+        '''
         d_result = {
                     'asins': d_asins,
                     'keywords': xsell_dal.lKeywords,

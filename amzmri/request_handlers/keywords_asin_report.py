@@ -6,6 +6,7 @@ Created on 16 Aug 2016
 import webapp2
 import json
 from amzmri.dal.xsellDataAccessLayer import XSellDataAccessLayer
+import datetime
 
 class KeywordsAsinReport(webapp2.RequestHandler):
     _dal = None
@@ -19,22 +20,21 @@ class KeywordsAsinReport(webapp2.RequestHandler):
         return self.post();
 
 
-    def _format(self, keywords_superset, asin_2_words_index):
-        columns = ['ASIN']
-        columns.extend(keywords_superset)
-        rows = []
-        for asin, d_words in asin_2_words_index.iteritems():
-            row = [asin]
-            row.extend(['1' if d_words[word] else '0' for word in keywords_superset])
-            rows.append(row)
-        return {'rows':rows,'columns':columns}
+    def _format(self, asin_word_is_indexed):
+        return [{'asin':e.asin,
+                 'is_indexed' : e.words_is_indexed,
+                 'time':e.date.strftime("%Y-%m-%d")} 
+                for e in asin_word_is_indexed]
     
     def post(self):
         dal = self._get_dal()
-        asin_2_words_index = dal.getOurAsinIndexes()
-        dict_res = self._format(dal.keywords_superset, asin_2_words_index)
-        #dict_res = {'asin':'ABC', 'data':{'rows':[['a','yes'],['b','no']],'columns':['keyword','is indexed']}}
+        now = datetime.datetime.utcnow()
+        week_ago = now - datetime.timedelta(days=7)        
+        asin_word_is_indexed = dal.getOurAsinIndexes(week_ago, now)
+        dict_res = self._format(asin_word_is_indexed)
         as_json = json.dumps(dict_res)
         self.response.write(as_json)
+        self.response.headers["Access-Control-Allow-Origin"] = "*"
+        self.response.headers["Access-Control-Allow-Headers"] = "Content-Type"        
         
 
