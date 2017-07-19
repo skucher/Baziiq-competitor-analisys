@@ -20,7 +20,7 @@ class XSellDataAccessLayer(object):
         self.our_asins = ['B01ETRM2LO','B06XZT4XW3']
         self.lAsins = []
         self.lAsins.extend(self.our_asins)
-        self.lAsins.extend(['B01N4MSO49','B00B7XUVOE','B01AFQI3ZW','B0145QF41E','B01AKYXX04','B01M2ZPCLE','B01JKNMYJW','B01C03PLQW','B01N487X84','B011BY7DX0','B01FOKJRZE'])
+        self.lAsins.extend(['B01N4MSO49','B018CKCA4S','B00B7XUVOE','B01AFQI3ZW','B0145QF41E','B01AKYXX04','B01M2ZPCLE','B01JKNMYJW','B01C03PLQW','B01N487X84','B011BY7DX0','B01FOKJRZE'])
         self.lKeywords = ['travel changing pad',
                             'portable diaper bag',
                             'portable changing pad',
